@@ -1,3 +1,4 @@
+import { IndexComponent } from './../../components/index/index.component';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -22,7 +23,8 @@ import { LoginComponent } from 'app/login/login.component';
   ],
   declarations: [
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    IndexComponent
   ]
 })
 

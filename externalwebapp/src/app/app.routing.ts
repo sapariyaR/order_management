@@ -1,3 +1,5 @@
+import { VerifyUserComponent } from './components/verify-user/verify-user.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { NgModule } from '@angular/core';
 import { CommonModule, } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
@@ -24,11 +26,11 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home/login',
+    redirectTo: 'home/index',
     pathMatch: 'full',
   },{
     path: 'home',
-    redirectTo: 'home/login',
+    redirectTo: 'home/index',
     pathMatch: 'full',
   },
   {
@@ -39,6 +41,14 @@ const routes: Routes = [
         path: '',
         loadChildren: './layouts/home-layout/home-layout.module#HomeLayoutModule'
       }]
+  },
+  {
+    path:'404',
+    component : PageNotFoundComponent
+  },
+  {
+    path: 'verify-user/:url',
+    component:VerifyUserComponent
   }
 ];
 

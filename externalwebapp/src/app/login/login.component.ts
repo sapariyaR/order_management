@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
         }
       }, error1 => {
         this.password = ""
-        this.snackBar.open("User Name is required.", "close", {duration: AppConstant.SNACKBAR_TIMEOUT,});
+        this.snackBar.open(error1.message, "close", {duration: AppConstant.SNACKBAR_TIMEOUT,});
       }
       );
     }
