@@ -1,0 +1,52 @@
+Angular API Caching
+
+  downloadNodeSummary(topicId: number): Promise<any> {
+    let apiUrl = environment.urlPrefix + "/topic/downloadnodesummary?topicId=" + topicId;
+    return this.summaryIntercept(apiUrl, topicId);
+  }
+
+  summaryIntercept(apiUrl, topicId) {
+    const cachedResponse = this.cache.get(apiUrl);
+    return cachedResponse ? Observable.of(cachedResponse).toPromise() : this.http.get(apiUrl, this.headers())
+      .toPromise()
+      .then(response => { this.cache.put(apiUrl, response.json());  return Observable.of(response.json()).toPromise() })
+      .catch(err => {
+        this.intercepted.handleError(err);
+      });
+  }
+  
+  ========================================================================================================
+  
+  
+  import { Injectable } from '@angular/core';
+
+const maxAge = 30000;
+@Injectable()
+export class SummaryCacheService  {
+
+  cache = new Map();
+
+  get(key:any): any {
+    const cached = this.cache.get(key);
+
+    if (!cached) {
+      return undefined;
+    }
+
+    const isExpired = cached.lastRead < (Date.now() - maxAge);
+    const expired = isExpired ? 'expired ' : '';
+    return cached.response;
+  }
+
+  put(key :any, response: any): void {
+    const entry = { key, response, lastRead: Date.now() };
+    this.cache.set(key, entry);
+
+    const expired = Date.now() - maxAge;
+    this.cache.forEach(expiredEntry => {
+      if (expiredEntry.lastRead < expired) {
+        this.cache.delete(expiredEntry.url);
+      }
+    });
+  }
+}

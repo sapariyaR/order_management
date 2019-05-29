@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="row">
+      <div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto" style="margin-top: 10%;">
+        <form class="form" method="" action="">
+          <div class="card card-login">
+            <div class="card-header card-header-primary text-center">
+              <h4 class="card-title">Login</h4>
+            </div>
+            <div class="card-body ">
+              <p class="card-description text-center">Welcome to App Name</p>
+              <div class="row">
+                <span class="bmd-form-group col-12">
+                  <div class="input-group">
+                    <mat-form-field class="col-12">
+                      <input [(ngModel)]="username" name="username" matInput placeholder="Email" type="email">
+                    </mat-form-field>
+                  </div>
+                </span>
+              </div>
+              <div class="row">
+                <span class="bmd-form-group col-12">
+                  <div class="input-group">
+                    <mat-form-field class="col-12">
+                      <input matInput #passwordInput name="password" (keydown)="loginWithEnterKey($event)" [(ngModel)]="password" placeholder="Password" type="password">
+                    </mat-form-field>
+                  </div>
+                </span>
+              </div>
+            </div>
+            <div class="card-footer justify-content-center">
+                <button [ngClass]="username != undefined && username != null && username != '' && password != undefined && password != null && password != '' ? '': 'disabled btn-disabled'" (click)="login()" mat-raised-button type="submit" class="btn btn-primary pull-right">Lets Go</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
