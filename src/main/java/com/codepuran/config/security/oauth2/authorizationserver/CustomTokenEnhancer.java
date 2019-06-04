@@ -29,7 +29,9 @@ public class CustomTokenEnhancer implements TokenEnhancer {
     Optional<User> user = userRepository.findByEmail(userName);
     if (user.isPresent()) {
       additionalInfo.put("id", user.get().getId());
-      additionalInfo.put("name", user.get().getName());
+      additionalInfo.put("first_name", user.get().getFirstName());
+      additionalInfo.put("last_name", user.get().getLastName());
+      additionalInfo.put("gender", user.get().getGender());
       additionalInfo.put("email", user.get().getEmail());
       additionalInfo.put("role", user.get().getRole());
     }

@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeLayoutRoutes } from './home-layout.routing';
-import { MatButtonModule, MatInputModule, MatRippleModule, MatFormFieldModule, MatTooltipModule, MatSelectModule } from '@angular/material';
+import { MatButtonModule, MatInputModule, MatRippleModule, MatFormFieldModule, MatTooltipModule, MatSelectModule, MatIconModule } from '@angular/material';
 import { RegisterComponent } from 'app/register/register.component';
 import { LoginComponent } from 'app/login/login.component';
 
@@ -19,7 +19,8 @@ import { LoginComponent } from 'app/login/login.component';
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatIconModule
   ],
   declarations: [
     LoginComponent,

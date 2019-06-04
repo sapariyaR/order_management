@@ -1,0 +1,56 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <button  mat-stroked-button color="primary" (click)="openDialog()"><i class="material-icons">person_add
+      </i>Add User</button>
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Profiles</h4>
+            <p class="card-category">Mannage Existing Users</p>
+          </div>
+          <div class="card-body">
+            <table mat-table [dataSource]="dataSource" style="width:100%">
+              <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef> No. </th>
+                <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+              </ng-container>
+              <ng-container matColumnDef="firstName">
+                <th mat-header-cell *matHeaderCellDef> First Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="lastName">
+                <th mat-header-cell *matHeaderCellDef> Last Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef> Email </th>
+                <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+              </ng-container>
+              <ng-container matColumnDef="gender">
+                <th mat-header-cell *matHeaderCellDef> Gender </th>
+                <td mat-cell *matCellDef="let element"> {{element.gender}} </td>
+              </ng-container>
+              <ng-container matColumnDef="role">
+                <th mat-header-cell *matHeaderCellDef> Role </th>
+                <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+              </ng-container>
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let element"> 
+                  <i class="material-icons" title="Edit" style="cursor: pointer;" (click)="editUser(element)">edit</i>
+                  <i class="material-icons" title="Delete User" style="color: red;cursor: pointer;" (click)="deleteUser(element)">delete_outline</i> 
+                  <i class="material-icons" title="Send Invitation Link" style="color: #039be5;cursor: pointer;" (click)="sendInvitation(element)">email</i>
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

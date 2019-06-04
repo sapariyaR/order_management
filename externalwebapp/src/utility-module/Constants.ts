@@ -18,4 +18,9 @@ export class AppConstant{
 
 export class APIConstant{
     public static LOGIN = environment.urlPrefix+'/oauth/token';
+    public static CREATE_USER = environment.urlPrefix+'/api/user/create';
+    public static VALIDATE_TOKEN = environment.urlPrefix+'/api/user/token/validate';
+    public static GET_ALL_USER = environment.urlPrefix+'/api/user/all';
+    public static DELETE_USER = environment.urlPrefix+'/api/user/';
+    public static RESET_PASSWORD = environment.urlPrefix+'/api/user/resetpassword';
 }

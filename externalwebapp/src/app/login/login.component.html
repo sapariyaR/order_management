@@ -12,7 +12,8 @@
                 <span class="bmd-form-group col-12">
                   <div class="input-group">
                     <mat-form-field class="col-12">
-                      <input [(ngModel)]="username" name="username" matInput placeholder="Email" type="email">
+                      <input [formControl]="emailFormControl" required matInput placeholder="Email" type="email">
+                      <mat-error *ngIf="emailFormControl.invalid">{{getErrorMessageEmail()}}</mat-error>
                     </mat-form-field>
                   </div>
                 </span>
@@ -21,14 +22,19 @@
                 <span class="bmd-form-group col-12">
                   <div class="input-group">
                     <mat-form-field class="col-12">
-                      <input matInput #passwordInput name="password" (keydown)="loginWithEnterKey($event)" [(ngModel)]="password" placeholder="Password" type="password">
+                      <input [formControl]="passwordFormControl" matInput name="password" [type]="hide ? 'password' : 'text'" placeholder="Password">
+                      <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                      </button>
+                      <mat-hint align="end">Not more then 10 characters long.</mat-hint>
+                      <mat-error *ngIf="passwordFormControl.invalid">{{getPasswordMessageEmail()}}</mat-error>
                     </mat-form-field>
                   </div>
                 </span>
               </div>
             </div>
             <div class="card-footer justify-content-center">
-                <button [ngClass]="username != undefined && username != null && username != '' && password != undefined && password != null && password != '' ? '': 'disabled btn-disabled'" (click)="login()" mat-raised-button type="submit" class="btn btn-primary pull-right">Lets Go</button>
+                <button [ngClass]="emailFormControl.valid && passwordFormControl.valid ? '': 'disabled btn-disabled'" (click)="login()" mat-raised-button type="submit" class="btn btn-primary pull-right">Lets Go</button>
             </div>
           </div>
         </form>

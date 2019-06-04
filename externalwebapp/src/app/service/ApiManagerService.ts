@@ -63,12 +63,15 @@ export class APIManager {
   }
 
   get HttpOptions_4(): any {
-    return {
-      /*headers: new HttpHeaders({
-        'Authorization': `${'Bearer ' + this.sharedService.getToken()}`,
-      }),*/
-      responseType: 'blob'
+    const authToken = this.authenticationService.getToken();
+    let headers = new HttpHeaders();
+    headers = headers.append('Authorization', 'Bearer ' + authToken);
+    //headers = headers.append('Content-Type', 'application/json');
+    
+    const httpOptions = {
+      headers: headers
     };
+    return httpOptions;
   }
 
   getAPI(endPoint, params = {}, searchParams = {}, httpOptions: any = this.HttpOptions, showLoader: boolean = true, showToast: boolean = false): Observable<any> {
@@ -88,9 +91,9 @@ export class APIManager {
       );
   }
 
-  getDownloadAPI(endPoint, params = {}, searchParams = {}, httpOptions: any = this.HttpOptions, showLoader: boolean = true, showToast: boolean = false): Observable<any> {
+  getDownloadAPI(endPoint, params = {}, searchParams = {}, httpOption: any = this.HttpOptions, showLoader: boolean = true, showToast: boolean = false): Observable<any> {
 
-    return this.http.get(this.prepareEndpoint(endPoint, params, searchParams), httpOptions)
+    return this.http.get(this.prepareEndpoint(endPoint, params, searchParams), httpOption)
       .pipe(
         map(res => {
           return this.extractData(res, showToast);
@@ -219,7 +222,7 @@ export class APIManager {
   }
 
   public prepareEndpoint(endPoint: string, params: any, searchParams = {}) {
-    if (!this.utils.isEmpty(searchParams)) {
+    if (Object.keys(searchParams).length) {
       params['search'] = JSON.stringify(searchParams);
     }
     if (Object.keys(params).length) {

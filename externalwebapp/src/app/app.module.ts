@@ -1,3 +1,4 @@
+import {  MatDialogModule } from '@angular/material/dialog';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { AuthGuard } from './_gaurd/auth.guards';
 import { HttpInterceptors } from './service/index-Interceptor';
@@ -7,7 +8,6 @@ import { Utils } from '../utility-module/Utils';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
@@ -16,7 +16,7 @@ import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.compon
 import { HomeLayoutComponent } from './layouts/home-layout/home-layout.component';
 
 import { HeaderComponent } from './header/header.component';
-import { MatSnackBarModule, MatInputModule, MatButtonModule, MatRippleModule, MatFormFieldModule, MatSelectModule, MatTooltipModule } from '@angular/material';
+import { MatSnackBarModule, MatInputModule, MatButtonModule, MatRippleModule, MatFormFieldModule, MatSelectModule, MatTooltipModule, MatIconModule } from '@angular/material';
 import { InterceptedHttp } from './service/InterceptedHttp';
 import { HttpClientModule } from '@angular/common/http';
 import { VerifyUserComponent } from './components/verify-user/verify-user.component';
@@ -36,7 +36,10 @@ import { VerifyUserComponent } from './components/verify-user/verify-user.compon
     MatTooltipModule,
     MatButtonModule,
     ReactiveFormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatIconModule
   ],
   declarations: [
     AppComponent,

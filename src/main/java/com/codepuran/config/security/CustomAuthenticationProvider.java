@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import com.codepuran.repository.UserRepository;
+import com.mysql.cj.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -35,14 +36,22 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     final String name = authentication.getName();
     String password = authentication.getCredentials().toString();
     Optional<com.codepuran.entity.User> user = userRepository.findByEmail(name);
-    if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {
-      List<SimpleGrantedAuthority> roles = new ArrayList<>();
-      roles.add(new SimpleGrantedAuthority(user.get().getRole()));
-      final UserDetails principal = new User(name, password, roles);
-      final Authentication auth =
-          new UsernamePasswordAuthenticationToken(principal, password, roles);
-      log.debug("User authenticated with custom authenticator");
-      return auth;
+    if (user.isPresent() ) {
+      if(StringUtils.isNullOrEmpty(user.get().getPassword())) {
+        throw new AuthenticationCredentialsNotFoundException("Authentication information is not available, contact you Admin.");
+      }
+      if(passwordEncoder.matches(password, user.get().getPassword())) {
+        List<SimpleGrantedAuthority> roles = new ArrayList<>();
+        roles.add(new SimpleGrantedAuthority(user.get().getRole()));
+        final UserDetails principal = new User(name, password, roles);
+        final Authentication auth =
+            new UsernamePasswordAuthenticationToken(principal, password, roles);
+        log.debug("User authenticated with custom authenticator");
+        return auth;
+      }else {
+        throw new AuthenticationCredentialsNotFoundException("Password you have entered is incorrect.");
+      }
+      
     } else {
       throw new AuthenticationCredentialsNotFoundException("User Not Found");
     }

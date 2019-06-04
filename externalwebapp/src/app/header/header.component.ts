@@ -1,25 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from './../service/AuthenticationService';
+import { Component, OnInit, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnChanges {
 
-  isClicked;
+  isLogedIn;
+  user;
   
-  constructor() { }
+  constructor(private authenticationService:AuthenticationService ) { }
 
   ngOnInit() {
+    this.isLogedIn = this.authenticationService.isLoggedIn();
+     if(this.isLogedIn){
+       this.user = this.authenticationService.getUser();
+     }
   }
 
-  register(){
-
+  ngOnChanges() {
+    this.isLogedIn = this.authenticationService.isLoggedIn();
+     if(this.isLogedIn){
+       this.user = this.authenticationService.getUser();
+     }
   }
-  
-  login(){
 
+  signOut(){
+    this.authenticationService.logout();
+    this.isLogedIn = false;
   }
 
 }

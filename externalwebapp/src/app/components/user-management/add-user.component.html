@@ -1,0 +1,61 @@
+<h2 mat-dialog-title>Add New User</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <form>
+                        <div class="row">
+                            <div class="col-6">
+                              <mat-form-field class="example-full-width">
+                                <input [formControl]="firstNameFormControl" required matInput placeholder="First Name" type="text">
+                                <mat-error *ngIf="firstNameFormControl.invalid">{{getErrorMessageFirstName()}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6">
+                              <mat-form-field class="example-full-width">
+                                <input [formControl]="lastNameFormControl" required matInput placeholder="Last Name" type="text">
+                                <mat-error *ngIf="lastNameFormControl.invalid">{{getErrorMessageLast()}}</mat-error>
+                            </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Email address" type="email" [formControl]="email" required>
+                                  <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6">
+                                <mat-form-field>
+                                    <mat-select placeholder="Gender" required [formControl]="genderFormControl">
+                                      <mat-option value="Male">Male</mat-option>
+                                      <mat-option value="Female">Female</mat-option>
+                                      <mat-option value="Other">Other</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="genderFormControl.hasError('required')">Please choose an Gender</mat-error>
+                                  </mat-form-field>
+                            </div> 
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <mat-form-field>
+                                    <mat-label>Roles</mat-label>
+                                    <mat-select [formControl]="roles" required multiple>
+                                      <mat-option *ngFor="let role of rolesList" [value]="role">{{role}}</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="roles.hasError('required')">Please choose any one Role</mat-error>
+                                  </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+      </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-raised-button class="btn btn-primary pull-right" [ngClass]="firstNameFormControl.valid && lastNameFormControl.valid && email.valid  && genderFormControl.valid && roles.valid ? '': 'disabled btn-disabled'" (click)="saveUser()">Go Ahead</button>
+</mat-dialog-actions>

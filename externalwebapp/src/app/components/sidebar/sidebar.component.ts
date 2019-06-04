@@ -1,3 +1,4 @@
+import { AuthenticationService } from './../../service/AuthenticationService';
 import { Component, OnInit } from '@angular/core';
 
 declare const $: any;
@@ -9,7 +10,9 @@ declare interface RouteInfo {
 }
 export const ROUTES: RouteInfo[] = [
     { path: '/admin/dashboard', title: 'Dashboard',  icon: 'dashboard', class: '' },
-    { path: '/admin/user-profile', title: 'User Profile',  icon:'person', class: '' }
+    { path: '/admin/user-profile', title: 'User Profile',  icon:'person', class: '' },
+    { path: '/admin/user-management', title: 'User Management',  icon:'person', class: '' }
+
 ];
 
 @Component({
@@ -19,11 +22,12 @@ export const ROUTES: RouteInfo[] = [
 })
 export class SidebarComponent implements OnInit {
   menuItems: any[];
-
-  constructor() { }
+  user;
+  constructor(private authenticationService : AuthenticationService) { }
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);
+    this.user = this.authenticationService.getUser();
   }
   isMobileMenu() {
       if ($(window).width() > 991) {
@@ -31,4 +35,6 @@ export class SidebarComponent implements OnInit {
       }
       return true;
   };
+
+  
 }
