@@ -35,6 +35,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     final String name = authentication.getName();
     String password = authentication.getCredentials().toString();
+    passwordEncoder.encode(password);
     Optional<com.codepuran.entity.User> user = userRepository.findByEmail(name);
     if (user.isPresent() ) {
       if(StringUtils.isNullOrEmpty(user.get().getPassword())) {

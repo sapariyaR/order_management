@@ -32,10 +32,14 @@ export class APIManager {
   get HttpOptions_1() {
     let httpOptions;
     const authToken = this.authenticationService.getToken();
-    httpOptions = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'Authorization': `${authToken}`
-    });
+    if (this.authenticationService.IsValidToken(authToken)) {
+      httpOptions = new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Authorization': `${authToken}`
+      });
+    }else{
+      httpOptions = this.HttpOptions_2;
+    }
     return {headers: httpOptions};
   }
 
@@ -64,10 +68,13 @@ export class APIManager {
 
   get HttpOptions_4(): any {
     const authToken = this.authenticationService.getToken();
-    let headers = new HttpHeaders();
-    headers = headers.append('Authorization', 'Bearer ' + authToken);
-    //headers = headers.append('Content-Type', 'application/json');
-    
+    let headers = null;
+    if (this.authenticationService.IsValidToken(authToken)) {
+      headers = new HttpHeaders();
+      headers = headers.append('Authorization', 'Bearer ' + authToken);
+    }else{
+      headers = this.HttpOptions_2;
+    }
     const httpOptions = {
       headers: headers
     };

@@ -23,4 +23,5 @@ export class APIConstant{
     public static GET_ALL_USER = environment.urlPrefix+'/api/user/all';
     public static DELETE_USER = environment.urlPrefix+'/api/user/';
     public static RESET_PASSWORD = environment.urlPrefix+'/api/user/resetpassword';
+    public static SEND_INVITATION = environment.urlPrefix+'/api/user/sendinvitation';
 }

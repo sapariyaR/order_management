@@ -50,10 +50,7 @@ export class LoginComponent implements OnInit {
         this.snackBar.open("Login successful", "close", { duration: AppConstant.SNACKBAR_TIMEOUT });
         this.router.navigate([RouteConstants.DASHBOARD_ROUTE]);
       }
-    }, error1 => {
-      this.snackBar.open(error1.message, "close", { duration: AppConstant.SNACKBAR_TIMEOUT, });
-    }
-    );
+    });
   }
 
   getErrorMessageEmail() {

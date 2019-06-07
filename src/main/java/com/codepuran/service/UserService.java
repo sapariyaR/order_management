@@ -86,8 +86,17 @@ public class UserService {
     return userRepository.updateUserPassword(passwordEncoder.encode(password), userId);
   }
   
+  @Transactional
   public void deleteUser(Long id) {
     userRepository.deleteById(id);
+  }
+  
+  public User getUserById(Long id) {
+    Optional<User> findById = userRepository.findById(id);
+    if(findById.isPresent()) {
+      return findById.get();
+    }
+    throw new SeedException("Unable to find user.");
   }
   
   

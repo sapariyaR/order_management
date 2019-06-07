@@ -15,7 +15,6 @@ import {MatTableDataSource} from '@angular/material/table';
 export class UserManagementComponent implements OnInit {
   displayedColumns: string[] = ['position', 'firstName', 'lastName', 'email','gender','role','action'];
   dataSource = new MatTableDataSource<User>(ELEMENT_DATA);
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(public dialog: MatDialog,
@@ -31,16 +30,11 @@ export class UserManagementComponent implements OnInit {
         });
         this.dataSource = new MatTableDataSource<User>(response);
       }
-    }, error1 => {
-      this.snackBar.open(error1.message, "close", { duration: AppConstant.SNACKBAR_TIMEOUT, });
-    }
-    );
+    });
   }
 
   openDialog() {
-   
     const dialogRef = this.dialog.open(AddUserComponent);
-
     dialogRef.afterClosed().subscribe(result => {
       if(result != undefined && result != null && result != ''){
         console.log(`Dialog result: ${result}`);
@@ -68,19 +62,19 @@ export class UserManagementComponent implements OnInit {
   }
 
   deleteUser(user){
-    this.aPIManager.deleteAPI(APIConstant.DELETE_USER+user.id, {}, this.aPIManager.HttpOptions, false, true).subscribe(response => {
-      const data = this.dataSource.data;
-      data.splice(user.position-1,1);
-      this.dataSource.data = data;
-      this.snackBar.open("User deleted successfully", "close", { duration: AppConstant.SNACKBAR_TIMEOUT, });
-    }, error1 => {
-      this.snackBar.open(error1.message, "close", { duration: AppConstant.SNACKBAR_TIMEOUT, });
+    if (confirm("Are you sure you want to permanently delete this User?")) {
+      this.aPIManager.deleteAPI(APIConstant.DELETE_USER+user.id, {}, this.aPIManager.HttpOptions, false, true).subscribe(response => {
+        const data = this.dataSource.data;
+        data.splice(user.position-1,1);
+        this.dataSource.data = data;
+        this.snackBar.open("User deleted successfully", "close", { duration: AppConstant.SNACKBAR_TIMEOUT, });
+      });
     }
-    );
   }
 
   sendInvitation(user){
-
+    let obj = {"id":user.id};
+    this.aPIManager.getAPI(APIConstant.SEND_INVITATION, obj,{}, this.aPIManager.HttpOptions_4, false, true).subscribe(res =>{});
   }
 
 }
@@ -103,8 +97,17 @@ const ELEMENT_DATA: User[] = [];
 })
 export class AddUserComponent {
   userOldObject = null;
-  constructor(private dialogRef:MatDialogRef<AddUserComponent>
-    ,private aPIManager : APIManager,private snackBar: MatSnackBar,
+  firstNameFormControl = new FormControl('', [Validators.required,Validators.maxLength(15)]);
+  lastNameFormControl = new FormControl('', [Validators.required,Validators.maxLength(15)]);
+  email = new FormControl('', [Validators.required, Validators.email]);
+  roles = new FormControl('', Validators.required);
+  genderFormControl = new FormControl('', Validators.required);
+  
+  rolesList: string[] = ['Admin', 'Sells','Writer','Manager','CEO'];
+
+  constructor(private dialogRef:MatDialogRef<AddUserComponent>,
+    private aPIManager : APIManager,
+    private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) data) {
       if(data != null){
         this.userOldObject = data;
@@ -118,18 +121,9 @@ export class AddUserComponent {
       }
    }
 
-  roles = new FormControl('', Validators.required);
-  rolesList: string[] = ['Admin', 'Sells','Writer','Manager','CEO'];
-
-  email = new FormControl('', [Validators.required, Validators.email]);
-  firstNameFormControl = new FormControl('', [Validators.required,Validators.maxLength(15)]);
-  lastNameFormControl = new FormControl('', [Validators.required,Validators.maxLength(15)]);
-  genderFormControl = new FormControl('', Validators.required);
-
   getErrorMessage() {
     return this.email.hasError('required') ? 'You must enter a value' :
-        this.email.hasError('email') ? 'Not a valid email' :
-            '';
+        this.email.hasError('email') ? 'Not a valid email' :'';
   }
   getErrorMessageFirstName(){
     return this.firstNameFormControl.hasError('required') ? 'You must enter a value' :
@@ -159,10 +153,7 @@ export class AddUserComponent {
         }
         this.dialogRef.close(response);
       }
-    }, error1 => {
-      this.snackBar.open(error1.message, "close", { duration: AppConstant.SNACKBAR_TIMEOUT, });
-    }
-    );
-
+    });
   }
+
 }

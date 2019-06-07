@@ -23,7 +23,8 @@ export class VerifyUserComponent implements OnInit {
   constructor(private activeRoute: ActivatedRoute, 
     private utils: Utils,private router: Router,
     private aPIManager : APIManager,
-    private snackBar: MatSnackBar, private formBuilder: FormBuilder,
+    private snackBar: MatSnackBar, 
+    private formBuilder: FormBuilder,
     private authenticationService : AuthenticationService) {
       let url = this.activeRoute.snapshot.params.url;
       if(!this.utils.isEmpty(url)){
@@ -34,10 +35,7 @@ export class VerifyUserComponent implements OnInit {
           }else{
             this.router.navigate([RouteConstants.LOGIN_ROUTE]);
           }
-        }, error1 => {
-          this.snackBar.open(error1.message, "close", { duration: AppConstant.SNACKBAR_TIMEOUT, });
-        }
-        );
+        });
       }else{
         this.router.navigate([RouteConstants.PAGE_NOT_FOUND]);
       }
@@ -50,11 +48,9 @@ export class VerifyUserComponent implements OnInit {
     }, {validator: passwordMatchValidator});
   }
 
-  /* Shorthands for form controls (used from within template) */
   get password() { return this.formGroup.get('password'); }
   get password2() { return this.formGroup.get('password2'); }
 
-  /* Called on each input in either password field */
   onPasswordInput() {
     if (this.formGroup.hasError('passwordMismatch'))
       this.password2.setErrors([{'passwordMismatch': true}]);
@@ -66,12 +62,9 @@ export class VerifyUserComponent implements OnInit {
     let userObj = {"id":this.user.id,"password":this.formGroup.get('password').value};
     this.aPIManager.postAPI(APIConstant.RESET_PASSWORD, userObj, this.aPIManager.HttpOptions, false, true).subscribe(response => {
      this.authenticationService.clearSession();
-    }, error1 => {
-      this.snackBar.open(error1.message, "close", { duration: AppConstant.SNACKBAR_TIMEOUT, });
-    }
-    );
+     this.router.navigate([RouteConstants.LOGIN_ROUTE]);
+    });
   }
-
 
 }
 

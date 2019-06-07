@@ -34,8 +34,8 @@ export class InterceptedHttp implements HttpInterceptor {
       }, (err: any) => {
         if (err instanceof HttpErrorResponse) {
           let message = 'Could not process the request. Please try again.';
-          if (err.error && err.error['errorMessages'] && err.error['errorMessages'].length > 0) {
-            this.snackBar.open(err.error['errorMessages'], "close", {duration: 2000,});
+          if (err.error && err.error['error_description'] && err.error['error_description'].length > 0) {
+            this.snackBar.open(err.error['error_description'], "close", {duration: 2000,});
           } else if (err.status !== 450) {
             message = err.error['message'] ? err.error['message'] : message;
             this.snackBar.open(message, "close", {duration: 2000,});

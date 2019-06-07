@@ -12,7 +12,7 @@
                 <span class="bmd-form-group col-12">
                   <div class="input-group">
                     <mat-form-field class="col-12">
-                      <input [formControl]="emailFormControl" required matInput placeholder="Email" type="email">
+                      <input required [formControl]="emailFormControl" required matInput placeholder="Email" type="email">
                       <mat-error *ngIf="emailFormControl.invalid">{{getErrorMessageEmail()}}</mat-error>
                     </mat-form-field>
                   </div>
@@ -22,7 +22,7 @@
                 <span class="bmd-form-group col-12">
                   <div class="input-group">
                     <mat-form-field class="col-12">
-                      <input [formControl]="passwordFormControl" matInput name="password" [type]="hide ? 'password' : 'text'" placeholder="Password">
+                      <input required [formControl]="passwordFormControl" matInput name="password" [type]="hide ? 'password' : 'text'" placeholder="Password">
                       <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                       </button>

@@ -43,9 +43,7 @@ public class UserController {
     }else {
       User createUser = userService.createUser(user);
       String encodeUser = userService.encodeUser(createUser);
-      new Thread(() -> {
-        emailService.sendInvitationLink(encodeUser, createUser);
-      }) .start();
+      new Thread(() -> emailService.sendInvitationLink(encodeUser, createUser)).start();
       return ResponseEntity.status(HttpStatus.CREATED).body(createUser);
     }
    
@@ -79,6 +77,14 @@ public class UserController {
   public ResponseEntity<String> deleteUser(@PathVariable("id") Long id){
       userService.deleteUser(id);
       return new ResponseEntity<>(UtilsService.getMessageJson("User deleted successfully."), HttpStatus.OK);
+  }
+  
+  @GetMapping("/sendinvitation")
+  public ResponseEntity<String> sendInvitation(@NotEmpty(message = "Name id is required") @Valid @RequestParam("id") Long id) {
+    User user = userService.getUserById(id);
+    String encodeUser = userService.encodeUser(user);
+    new Thread(() ->emailService.sendInvitationLink(encodeUser, user)).start();
+    return new ResponseEntity<>(UtilsService.getMessageJson("invitation sent successfully."), HttpStatus.OK);
   }
 
 }
