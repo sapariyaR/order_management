@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import com.codepuran.repository.UserRepository;
+import com.codepuran.utils.UtilsService;
 import com.mysql.cj.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +25,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
   @Autowired private UserRepository userRepository;
   @Autowired private PasswordEncoder passwordEncoder;
+  
+  @Autowired
+  private UtilsService utilsService;
 
   public CustomAuthenticationProvider() {
     super();
@@ -43,7 +47,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
       }
       if(passwordEncoder.matches(password, user.get().getPassword())) {
         List<SimpleGrantedAuthority> roles = new ArrayList<>();
-        roles.add(new SimpleGrantedAuthority(user.get().getRole()));
+        List<String> roleList = utilsService.getListFromCommaSeparated(user.get().getRole());
+        roleList.forEach(item->{
+          roles.add(new SimpleGrantedAuthority(item));
+        });
         final UserDetails principal = new User(name, password, roles);
         final Authentication auth =
             new UsernamePasswordAuthenticationToken(principal, password, roles);

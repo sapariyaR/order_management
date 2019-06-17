@@ -32,6 +32,7 @@
     "@angular/router": "7.0.2",
     "@auth0/angular-jwt": "^2.1.0",
     "ajv": "6.4.0",
+    "angular-vertical-timeline": "^0.6.0",
     "arrive": "2.4.1",
     "bootstrap": "4.1.0",
     "bootstrap-material-design": "4.1.1",

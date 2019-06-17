@@ -1,0 +1,56 @@
+<h2 mat-dialog-title>Add New Customer</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <form>
+                        <div class="row">
+                            <div class="col-6">
+                                <mat-form-field class="example-full-width">
+                                  <input [formControl]="nameFormControl" required matInput placeholder="Name" type="text">
+                                  <mat-error *ngIf="nameFormControl.invalid">{{getErrorMessageName()}}</mat-error>
+                                  </mat-form-field>
+                              </div>
+                              <div class="col-6">
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Email address" type="email" [formControl]="email" required>
+                                  <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <mat-form-field>
+                                    <mat-select placeholder="Client Priority" required [formControl]="priorityFormControl">
+                                      <mat-option value="HIGH">HIGH</mat-option>
+                                      <mat-option value="MEDIUM">MEDIUM</mat-option>
+                                      <mat-option value="LOW">LOW</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="priorityFormControl.hasError('required')">Please choose an Gender</mat-error>
+                                  </mat-form-field>
+                            </div>
+                            <div class="col-6">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput placeholder="Communication Platform" type="text" [formControl]="communicationFormControl">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                              <mat-form-field class="example-full-width" hintLabel="Max 1000 characters">
+                                 <textarea matInput #input maxlength="1000" [formControl]="commentFormControl" placeholder="About Client..."></textarea>
+                                 <mat-hint align="end">{{input.value?.length || 0}}/1000</mat-hint>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+      </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button class="btn btn-primary pull-right" [ngClass]="nameFormControl.valid && email.valid && priorityFormControl.valid ? '': 'disabled btn-disabled'" (click)="saveClient()">Go Ahead</button>
+  </mat-dialog-actions>

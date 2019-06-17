@@ -1,0 +1,97 @@
+<h2 mat-dialog-title>Add New Order</h2>
+<mat-dialog-content class="mat-typography" style="width: 50vw;">
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <form class="example-form" [formGroup]='usersForm'>
+                        <div class="row">
+                            <div class="col-10">
+                                <mat-form-field class="example-full-width">
+                                    <input required matInput placeholder="Choose a Client" [matAutocomplete]="auto"
+                                        formControlName='userInput'>
+                                </mat-form-field>
+                                <mat-error *ngIf="usersForm.controls.userInput.invalid">
+                                    {{getClientErrorMsg()}}
+                                </mat-error>
+                                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                                    <mat-option *ngFor="let user of filteredUsers" [value]="user">
+                                        <span><b>{{ user.name }} </b><small class="card-category">({{user.email}})</small></span>
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <mat-form-field class="example-full-width">
+                                    <input formControlName="productName" required matInput placeholder="Product Name"
+                                        type="text">
+                                    <mat-error *ngIf="usersForm.controls.productName.invalid">{{getRequiredErrorMsg('productName')}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-8">
+                                <mat-form-field class="example-full-width" hintLabel="Max 1000 characters">
+                                    <textarea required matInput #input maxlength="1000" formControlName="productDescription"
+                                        placeholder="Product Description"></textarea>
+                                    <mat-hint align="end">{{input.value?.length || 0}}/1000</mat-hint>
+                                    <mat-error *ngIf="usersForm.controls.productDescription.invalid">{{getRequiredErrorMsg('productDescription')}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-4">
+                                <mat-form-field class="example-full-width">
+                                    <input formControlName="numbrOfUnit" required matInput placeholder="Number of Unit "
+                                        type="number">
+                                    <mat-error *ngIf="usersForm.controls.numbrOfUnit.invalid">{{getNumberOfUnitError()}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-4">
+                                <mat-form-field class="example-full-width">
+                                    <input formControlName="pricePerUnit" required matInput placeholder="Price per Unit "
+                                        type="number">
+                                    <mat-error *ngIf="usersForm.controls.pricePerUnit.invalid">{{getRequiredErrorMsg('numbrOfUnit')}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-4">
+                                <mat-form-field class="example-full-width">
+                                    <input formControlName="totalPrice" required matInput placeholder="Total Price"
+                                        type="number">
+                                    <mat-error *ngIf="usersForm.controls.totalPrice.invalid">{{getRequiredErrorMsg('totalPrice')}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-6">
+                                <mat-form-field class="example-full-width">
+                                    <input formControlName="paymentType" required matInput placeholder="Payment Type" type="text">
+                                    <mat-hint align="end">Ex. Online, Cheque, Cash..</mat-hint>
+                                    <mat-error *ngIf="usersForm.controls.paymentType.invalid">{{getRequiredErrorMsg('productName')}}</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6">
+                                  <mat-form-field class="example-full-width">
+                                    <input required formControlName="endDate" matInput [min]="minDate" [matDatepicker]="picker" placeholder="Choose a end date">
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker startView="month" #picker></mat-datepicker>
+                                    <mat-error *ngIf="usersForm.controls.endDate.invalid">{{getDateValidationError()}}</mat-error>
+                                  </mat-form-field>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button class="btn btn-primary pull-right" [ngClass]="usersForm.controls.endDate.valid 
+    && usersForm.controls.paymentType.valid 
+    && usersForm.controls.totalPrice.valid 
+    && usersForm.controls.pricePerUnit.valid 
+    && usersForm.controls.numbrOfUnit.valid 
+    && usersForm.controls.productDescription.valid 
+    && usersForm.controls.productName.valid
+    && usersForm.controls.userInput.valid ? '': 'disabled btn-disabled'" (click)="saveOrder()">Go Ahead</button>
+</mat-dialog-actions>

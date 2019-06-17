@@ -1,6 +1,5 @@
 package com.codepuran.entity;
 
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -48,9 +47,5 @@ public class User {
   
   @Transient
   private Long urlGenerationTime;
-  
-  
-  public List<String> getRoles(){
-    return null;
-  }
+ 
 }

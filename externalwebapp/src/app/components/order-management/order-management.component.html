@@ -1,0 +1,170 @@
+<div class="main-content mt-4">
+  <div class="container-fluid">
+    <div class="scrolling-wrapper" cdkDropListGroup>
+      <div class="card card_scroll col-4 p-1 mr-2 mb-3">
+        <div class="card-header card-header-primary">
+          <h4 class="card-title">Submitted</h4>
+          <div class="d-flex justify-content-between">
+            <p class="card-category">Submitted Orders</p>
+            <span (click)="openAddOrder()" title="Create new Order" style="cursor: pointer;" class="material-icons">control_point</span>
+          </div>
+        </div>
+        <div class="card-body drag-height">
+          <div cdkDropList
+          id="submittedList"
+          [cdkDropListConnectedTo]="connectedTo" 
+          [cdkDropListData]="orderList[0].submittedList" 
+            class="example-list" (cdkDropListDropped)="drop($event)">
+            <div class="example-box p-2" *ngFor="let item of orderList[0].submittedList;let i = index" cdkDrag>
+              <div>
+                <div class="d-flex justify-content-between">
+                    <span [title]="item.productName" class="p-0 col-9 text-truncate">{{item.productName}}</span>
+                    <span (click)="openClientOrOrderDetailsSheet(item,1)" title="Click to view Order details" class="text-truncate link">#{{item.orderId}}</span>
+                    <span style="font-size: 18px;cursor: pointer;" (click)="deleteOrder(item,i)" class="material-icons" title="Authorized Only">delete_outline</span>
+                    <span style="font-size: 18px;cursor: pointer;" (click)="openClientOrOrderDetailsSheet(item,3)" class="material-icons" title="Time Line">timeline</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span title="Creation Date" class="card-category mt-0 mb-0">{{item.creationDateString}}</span>
+                  <span title="Completion Date" class="card-category mt-0 mb-0">{{item.endDateString}}</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                  <span (click)="openClientOrOrderDetailsSheet(item,2)" class="p-0 col-8 link">{{item.clientName}}</span>
+                  <span class="mt-0 mb-0" style="color: #039be5">{{item.orderStatus}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card card_scroll col-4 p-1 mr-2 mb-3">
+        <div class="card-header card-header-primary inprogress">
+          <h4 class="card-title">In Progress</h4>
+          <p class="card-category">In Progress Orders</p>
+        </div>
+        <div class="card-body drag-height">
+          <div cdkDropList
+          id="inProgressList"
+          [cdkDropListConnectedTo]="connectedTo" 
+          [cdkDropListData]="orderList[1].inProgressList" 
+            class="example-list" (cdkDropListDropped)="drop($event)">
+            <div class="example-box p-2" *ngFor="let item of orderList[1].inProgressList;let i = index" cdkDrag>
+                <div>
+                    <div class="d-flex justify-content-between">
+                        <span [title]="item.productName" class="p-0 col-9 text-truncate">{{item.productName}}</span>
+                        <span (click)="openClientOrOrderDetailsSheet(item,1)" title="Click to view Order details" class="text-truncate link">#{{item.orderId}}</span>
+                        <span style="font-size: 18px;cursor: pointer;" (click)="deleteOrder(item,i)" class="material-icons" title="Authorized Only">delete_outline</span>
+                        <span style="font-size: 18px;cursor: pointer;" (click)="openClientOrOrderDetailsSheet(item,3)" class="material-icons" title="Time Line">timeline</span>
+                      </div>
+                    <div class="d-flex justify-content-between">
+                      <span title="Creation Date" class="card-category mt-0 mb-0">{{item.creationDateString}}</span>
+                      <span title="Completion Date" class="card-category mt-0 mb-0">{{item.endDateString}}</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <span (click)="openClientOrOrderDetailsSheet(item,2)" class="p-0 col-8 link">{{item.clientName}}</span>
+                      <span class="mt-0 mb-0" style="color: #56ab2f">{{item.orderStatus}}</span>
+                    </div>
+                  </div>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card card_scroll col-4 p-1 mr-2 mb-3">
+        <div class="card-header card-header-primary completed">
+          <h4 class="card-title">Completed</h4>
+          <p class="card-category">Completed Orders</p>
+        </div>
+        <div class="card-body drag-height">
+          <div cdkDropList 
+          id="completedList"
+          [cdkDropListConnectedTo]="connectedTo" 
+          [cdkDropListData]="orderList[3].completedList" 
+            class="example-list" (cdkDropListDropped)="drop($event)">
+            <div class="example-box p-2" *ngFor="let item of orderList[3].completedList;let i = index" cdkDrag>
+              <div>
+                  <div class="d-flex justify-content-between">
+                      <span [title]="item.productName" class="p-0 col-9 text-truncate">{{item.productName}}</span>
+                      <span (click)="openClientOrOrderDetailsSheet(item,1)" title="Click to view Order details" class="text-truncate link">#{{item.orderId}}</span>
+                      <span style="font-size: 18px;cursor: pointer;" (click)="deleteOrder(item,i)" class="material-icons" title="Authorized Only">delete_outline</span>
+                      <span style="font-size: 18px;cursor: pointer;" (click)="openClientOrOrderDetailsSheet(item,3)" class="material-icons" title="Time Line">timeline</span>
+                    </div>
+                  <div class="d-flex justify-content-between">
+                    <span title="Creation Date" class="card-category mt-0 mb-0">{{item.creationDateString}}</span>
+                    <span title="Completion Date" class="card-category mt-0 mb-0">{{item.endDateString}}</span>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <span (click)="openClientOrOrderDetailsSheet(item,2)" class="p-0 col-8 link">{{item.clientName}}</span>
+                    <span class="mt-0 mb-0" style="color: #185a9d">{{item.orderStatus}}</span>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card card_scroll col-4 p-1 mr-2 mb-3">
+        <div class="card-header card-header-primary hold">
+          <h4 class="card-title">Hold</h4>
+          <p class="card-category">Orders on Hold</p>
+        </div>
+        <div class="card-body drag-height">
+          <div cdkDropList
+          id="holdList"
+          [cdkDropListConnectedTo]="connectedTo" 
+          [cdkDropListData]="orderList[2].holdList"
+            class="example-list" (cdkDropListDropped)="drop($event)">
+            <div class="example-box p-2" *ngFor="let item of orderList[2].holdList;let i = index" cdkDrag>
+                <div>
+                    <div class="d-flex justify-content-between">
+                        <span [title]="item.productName" class="p-0 col-9 text-truncate">{{item.productName}}</span>
+                        <span (click)="openClientOrOrderDetailsSheet(item,1)" title="Click to view Order details" class="text-truncate link">#{{item.orderId}}</span>
+                        <span style="font-size: 18px;cursor: pointer;" (click)="deleteOrder(item,i)" class="material-icons" title="Authorized Only">delete_outline</span>
+                        <span style="font-size: 18px;cursor: pointer;" (click)="openClientOrOrderDetailsSheet(item,3)" class="material-icons" title="Time Line">timeline</span>
+                      </div>
+                    <div class="d-flex justify-content-between">
+                      <span title="Creation Date" class="card-category mt-0 mb-0">{{item.creationDateString}}</span>
+                      <span title="Completion Date" class="card-category mt-0 mb-0">{{item.endDateString}}</span>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                      <span (click)="openClientOrOrderDetailsSheet(item,2)" class="p-0 col-8 link">{{item.clientName}}</span>
+                      <span class="mt-0 mb-0" style="color: #eb3349">{{item.orderStatus}}</span>
+                    </div>
+                  </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="card card_scroll col-4 p-1 mr-2 mb-3">
+      <div class="card-header card-header-primary reopen">
+        <h4 class="card-title">Re-Open</h4>
+        <p class="card-category">Re-Open Orders</p>
+      </div>
+      <div class="card-body drag-height">
+        <div cdkDropList 
+        id="reOpenList"
+        [cdkDropListConnectedTo]="connectedTo" 
+          [cdkDropListData]="orderList[4].reOpenList"
+          class="example-list" (cdkDropListDropped)="drop($event)">
+          <div class="example-box p-2" *ngFor="let item of orderList[4].reOpenList;let i = index" cdkDrag>
+              <div>
+                  <div class="d-flex justify-content-between">
+                      <span [title]="item.productName" class="p-0 col-9 text-truncate">{{item.productName}}</span>
+                      <span (click)="openClientOrOrderDetailsSheet(item,1)" title="Click to view Order details" class="text-truncate link">#{{item.orderId}}</span>
+                      <span style="font-size: 18px;cursor: pointer;" (click)="deleteOrder(item,i)" class="material-icons" title="Authorized Only">delete_outline</span>
+                      <span style="font-size: 18px;cursor: pointer;" (click)="openClientOrOrderDetailsSheet(item,3)" class="material-icons" title="Time Line">timeline</span>
+                    </div>
+                  <div class="d-flex justify-content-between">
+                    <span title="Creation Date" class="card-category mt-0 mb-0">{{item.creationDateString}}</span>
+                    <span title="Completion Date" class="card-category mt-0 mb-0">{{item.endDateString}}</span>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <span (click)="openClientOrOrderDetailsSheet(item,2)" class="p-0 col-8 link">{{item.clientName}}</span>
+                    <span class="mt-0 mb-0" style="color: #ffc371">{{item.orderStatus}}</span>
+                  </div>
+                </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

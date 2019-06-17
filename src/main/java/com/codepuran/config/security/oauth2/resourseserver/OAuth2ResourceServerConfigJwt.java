@@ -23,9 +23,6 @@ public class OAuth2ResourceServerConfigJwt extends ResourceServerConfigurerAdapt
     private String resourceId;
 
     @Autowired
-    private CustomAccessTokenConverter customAccessTokenConverter;
-
-    @Autowired
     private AuthorizationServerConfiguration authorizationServerConfiguration;
 
     @Override

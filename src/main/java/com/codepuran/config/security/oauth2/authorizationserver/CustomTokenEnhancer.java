@@ -2,6 +2,7 @@ package com.codepuran.config.security.oauth2.authorizationserver;
 
 import com.codepuran.entity.User;
 import com.codepuran.repository.UserRepository;
+import com.codepuran.utils.UtilsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -20,6 +21,9 @@ public class CustomTokenEnhancer implements TokenEnhancer {
 
   @Autowired
   private UserRepository userRepository;
+  
+  @Autowired
+  private UtilsService utilsService;
 
   @Override
   public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
@@ -33,7 +37,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
       additionalInfo.put("last_name", user.get().getLastName());
       additionalInfo.put("gender", user.get().getGender());
       additionalInfo.put("email", user.get().getEmail());
-      additionalInfo.put("role", user.get().getRole());
+      additionalInfo.put("roles", utilsService.getListFromCommaSeparated(user.get().getRole()));
     }
     ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
     return accessToken;

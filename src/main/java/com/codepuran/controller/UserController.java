@@ -23,14 +23,17 @@ import com.codepuran.utils.UtilsService;
 
 @RestController
 @RequestMapping("/api/user")
-//@CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "Authorization, Content-Type, xsrf-token")
 public class UserController {
 
   private final UserService userService;
   
   @Autowired
   private EmailService emailService;
-
+  
+  @Autowired
+  private UtilsService utilsService;
+  
+  
   UserController(UserService userService){
     this.userService = userService;
   }
@@ -52,7 +55,7 @@ public class UserController {
   @PostMapping("/resetpassword")
   public ResponseEntity<String> reSetPassword(@RequestBody UserDto userDto){
     userService.updateUserPassword(userDto.getId(),userDto.getPassword());
-    return new ResponseEntity<>(UtilsService.getMessageJson("Password saved successfully."), HttpStatus.OK);
+    return new ResponseEntity<>(utilsService.getMessageJson("Password saved successfully."), HttpStatus.OK);
   }
   
   @GetMapping("/all")
@@ -76,7 +79,7 @@ public class UserController {
   @DeleteMapping("/{id}")
   public ResponseEntity<String> deleteUser(@PathVariable("id") Long id){
       userService.deleteUser(id);
-      return new ResponseEntity<>(UtilsService.getMessageJson("User deleted successfully."), HttpStatus.OK);
+      return new ResponseEntity<>(utilsService.getMessageJson("User deleted successfully."), HttpStatus.OK);
   }
   
   @GetMapping("/sendinvitation")
@@ -84,7 +87,7 @@ public class UserController {
     User user = userService.getUserById(id);
     String encodeUser = userService.encodeUser(user);
     new Thread(() ->emailService.sendInvitationLink(encodeUser, user)).start();
-    return new ResponseEntity<>(UtilsService.getMessageJson("invitation sent successfully."), HttpStatus.OK);
+    return new ResponseEntity<>(utilsService.getMessageJson("invitation sent successfully."), HttpStatus.OK);
   }
 
 }

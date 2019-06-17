@@ -29,6 +29,7 @@ export class UserManagementComponent implements OnInit {
           item['position'] = index+1;
         });
         this.dataSource = new MatTableDataSource<User>(response);
+        this.dataSource.paginator = this.paginator;
       }
     });
   }
@@ -66,6 +67,11 @@ export class UserManagementComponent implements OnInit {
       this.aPIManager.deleteAPI(APIConstant.DELETE_USER+user.id, {}, this.aPIManager.HttpOptions, false, true).subscribe(response => {
         const data = this.dataSource.data;
         data.splice(user.position-1,1);
+        if(data.length > 0){
+          data.forEach(function (item, index) {
+            item['position'] = index+1;
+          });
+        }
         this.dataSource.data = data;
         this.snackBar.open("User deleted successfully", "close", { duration: AppConstant.SNACKBAR_TIMEOUT, });
       });
